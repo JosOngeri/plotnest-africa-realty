@@ -1,6 +1,241 @@
 /* Plotnest Africa Realty — shared logic */
 
-const properties = [
+// Get properties from localStorage or use default data
+function getProperties() {
+  const stored = localStorage.getItem('plotnestListings');
+  if (stored) {
+    return JSON.parse(stored);
+  }
+  // Default properties if localStorage is empty
+  return [
+    {
+      id: 1,
+      title: 'Prime ¼ Acre Plot in Karen',
+      location: 'Karen',
+      county: 'Nairobi',
+      price: 12500000,
+      type: 'Land',
+      status: 'For Sale',
+      size: '0.25 acres',
+      bedrooms: null,
+      bathrooms: null,
+      image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80'
+      ],
+      description:
+        'A premium ¼ acre plot in the serene Karen neighborhood, ideal for a private family home. The land has a ready title deed, water and electricity on-site, and is accessible via an all-weather tarmac road. Gated-community feel with mature trees.',
+      features: [
+        'Ready title deed',
+        'Water & electricity on site',
+        'Tarmac road access',
+        'Gated community setting',
+        'Green leafy environment'
+      ],
+      agent: { name: 'Grace Muthoni', phone: '+254 712 345 678', email: 'grace@plotnest.co.ke' }
+    },
+    {
+      id: 2,
+      title: '3-Bedroom Villa in Runda',
+      location: 'Runda',
+      county: 'Kiambu',
+      price: 35000000,
+      type: 'Residential',
+      status: 'For Sale',
+      size: '0.5 acres',
+      bedrooms: 3,
+      bathrooms: 2,
+      image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1200&q=80'
+      ],
+      description:
+        'Elegant 3-bedroom villa sitting on half an acre in the prestigious Runda estate. Open-plan living spaces, a modern kitchen, manicured garden, and secure parking for up to four vehicles.',
+      features: [
+        'All ensuite master bedroom',
+        'Modern fitted kitchen',
+        'Spacious garden',
+        'Parking for 4 cars',
+        '24-hour security'
+      ],
+      agent: { name: 'James Otieno', phone: '+254 723 456 789', email: 'james@plotnest.co.ke' }
+    },
+    {
+      id: 3,
+      title: 'Commercial Plot on Mombasa Road',
+      location: 'Mombasa Road',
+      county: 'Machakos',
+      price: 8500000,
+      type: 'Commercial Land',
+      status: 'For Sale',
+      size: '0.125 acres',
+      bedrooms: null,
+      bathrooms: null,
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80'
+      ],
+      description:
+        'Strategically positioned commercial plot along the busy Mombasa Road corridor. High vehicular and foot traffic, suitable for shops, showrooms, or a service station.',
+      features: [
+        'High traffic frontage',
+        'Approved commercial plans',
+        'Flat terrain',
+        'Water & power available',
+        'Easy access to Nairobi–Mombasa highway'
+      ],
+      agent: { name: 'Amina Hassan', phone: '+254 734 567 890', email: 'amina@plotnest.co.ke' }
+    },
+    {
+      id: 4,
+      title: 'Modern Studio Apartment in Kilimani',
+      location: 'Kilimani',
+      county: 'Nairobi',
+      price: 6500000,
+      type: 'Apartment',
+      status: 'For Sale',
+      size: '45 m²',
+      bedrooms: 1,
+      bathrooms: 1,
+      image: 'https://images.unsplash.com/photo-1545324418-cc1a3a10e0e9?auto=format&fit=crop&w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1545324418-cc1a3a10e0e9?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80'
+      ],
+      description:
+        'A compact, stylish studio apartment in the heart of Kilimani, minutes from Yaya Centre and Valley Arcade. Perfect for young professionals or investors looking for rental income.',
+      features: [
+        'Gym & rooftop terrace',
+        'Reserved parking',
+        '24-hour security',
+        'Backup generator',
+        'Close to shopping & restaurants'
+      ],
+      agent: { name: 'Grace Muthoni', phone: '+254 712 345 678', email: 'grace@plotnest.co.ke' }
+    },
+    {
+      id: 5,
+      title: '5-Acre Farmland Near Mt. Kenya',
+      location: 'Nanyuki',
+      county: 'Laikipia',
+      price: 7000000,
+      type: 'Land/Farm',
+      status: 'For Sale',
+      size: '5 acres',
+      bedrooms: null,
+      bathrooms: null,
+      image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1200&q=80'
+      ],
+      description:
+        'Scenic 5-acre farmland in Nanyuki with breathtaking views of Mt. Kenya. Fertile agricultural soil, a functional borehole, and partial perimeter fencing make it ideal for farming or a countryside retreat.',
+      features: [
+        'Borehole with fresh water',
+        'Fertile soil',
+        'Perimeter fencing',
+        'Scenic Mt. Kenya views',
+        'Accessible murram road'
+      ],
+      agent: { name: 'Peter Kariuki', phone: '+254 745 678 901', email: 'peter@plotnest.co.ke' }
+    },
+    {
+      id: 6,
+      title: '4-Bedroom Maisonette in Kitisuru',
+      location: 'Kitisuru',
+      county: 'Nairobi',
+      price: 42000000,
+      type: 'Residential',
+      status: 'For Sale',
+      size: '0.4 acres',
+      bedrooms: 4,
+      bathrooms: 3,
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80'
+      ],
+      description:
+        'Luxury 4-bedroom maisonette in the leafy suburb of Kitisuru. It features a private swimming pool, DSQ, solar water heating, and smart-home integrations for modern living.',
+      features: [
+        'Private swimming pool',
+        'DSQ with separate entrance',
+        'Solar water heating',
+        'Smart home features',
+        'Ample garden & parking'
+      ],
+      agent: { name: 'James Otieno', phone: '+254 723 456 789', email: 'james@plotnest.co.ke' }
+    },
+    {
+      id: 7,
+      title: '1-Acre Plot in Thika',
+      location: 'Thika',
+      county: 'Kiambu',
+      price: 5500000,
+      type: 'Land',
+      status: 'For Sale',
+      size: '1 acre',
+      bedrooms: null,
+      bathrooms: null,
+      image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80'
+      ],
+      description:
+        'Affordable 1-acre plot near Thika Greens. Red soil, gentle slope, and murram road access make it perfect for a residential home or small-scale farming.',
+      features: [
+        'Ready title deed',
+        'Red soil / gentle slope',
+        'Murram road access',
+        'Near Thika Greens',
+        'Water & electricity nearby'
+      ],
+      agent: { name: 'Amina Hassan', phone: '+254 734 567 890', email: 'amina@plotnest.co.ke' }
+    },
+    {
+      id: 8,
+      title: 'Gated Community Plot in Nakuru',
+      location: 'Nakuru',
+      county: 'Nakuru',
+      price: 3200000,
+      type: 'Land',
+      status: 'For Sale',
+      size: '0.05 acres (50x100)',
+      bedrooms: null,
+      bathrooms: null,
+      image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80'
+      ],
+      description:
+        'Prime 50x100 plot in a gated community development in Nakuru. Ready title deed, water and electricity on site, and perimeter wall with security.',
+      features: [
+        'Ready title deed',
+        'Gated community',
+        'Water & electricity on site',
+        'Perimeter wall',
+        '24-hour security'
+      ],
+      agent: { name: 'Peter Kariuki', phone: '+254 745 678 901', email: 'peter@plotnest.co.ke' }
+    }
+  ];
+}
+
+const properties = getProperties();
   {
     id: 1,
     title: 'Prime ¼ Acre Plot in Karen',
